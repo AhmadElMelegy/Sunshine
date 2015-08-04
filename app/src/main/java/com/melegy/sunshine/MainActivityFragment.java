@@ -33,11 +33,17 @@ public class MainActivityFragment extends Fragment {
                 "Sun 6/29 - Sunny - 20/7"
         };
         List<String> weekForecast = new ArrayList<>(Arrays.asList(data));
-        ArrayAdapter<String> dataList = new ArrayAdapter<>(
+        ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<>(
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
                 weekForecast);
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
+        listView.setAdapter(mForecastAdapter);
+
+        return rootView;
     }
 }
