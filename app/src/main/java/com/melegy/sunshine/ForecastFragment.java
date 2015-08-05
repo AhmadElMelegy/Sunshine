@@ -1,5 +1,6 @@
 package com.melegy.sunshine;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -80,19 +81,19 @@ public class ForecastFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute();
+            fetchWeatherTask.execute("360761");
             return true ;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class FetchWeatherTask extends AsyncTask<Void, Void, Void>{
+    public class FetchWeatherTask extends AsyncTask<String, Void, Void>{
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -105,7 +106,32 @@ public class ForecastFragment extends Fragment {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?id=360761&cnt=7&units=metric&mode=json");
+                final String FORECAST_URI_SCHEME = "http";
+                final String FORECAST_URI_AUTHORITY = "api.openweathermap.org";
+                final String FORECAST_URI_FIRST_PATH = "data";
+                final String FORECAST_URI_SECOND_PATH = "2.5";
+                final String FORECAST_URI_THIRD_PATH = "forecast";
+                final String FORECAST_URI_FOURTH_PATH = "daily?";
+                final String QUERY_PARAM= "id";
+                final String FORMAT_PARAM= "mode";
+                final String UNITS_PARAM= "units";
+                final String DAYS_PARAM= "cnt";
+
+
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme(FORECAST_URI_SCHEME)
+                        .authority(FORECAST_URI_AUTHORITY)
+                        .appendPath(FORECAST_URI_FIRST_PATH)
+                        .appendPath(FORECAST_URI_SECOND_PATH)
+                        .appendPath(FORECAST_URI_THIRD_PATH)
+                        .appendPath(FORECAST_URI_FOURTH_PATH)
+                        .appendQueryParameter(QUERY_PARAM, params[0])
+                        .appendQueryParameter(FORMAT_PARAM, "json")
+                        .appendQueryParameter(UNITS_PARAM, "metric")
+                        .appendQueryParameter(DAYS_PARAM, "7");
+
+                String myUrl = builder.build().toString();
+                URL url = new URL(myUrl);
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -134,6 +160,8 @@ public class ForecastFragment extends Fragment {
                     return null;
                 }
                 forecastJsonStr = buffer.toString();
+
+                Log.v(LOG_TAG, "Forecast JSON String:" + forecastJsonStr);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
