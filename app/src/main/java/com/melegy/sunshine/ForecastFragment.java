@@ -38,6 +38,8 @@ public class ForecastFragment extends Fragment {
     public ForecastFragment() {
     }
 
+    ArrayAdapter<String> mForecastAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,8 @@ public class ForecastFragment extends Fragment {
                 "Sun 6/29 - Sunny - 20/7"
         };
         List<String> weekForecast = new ArrayList<>(Arrays.asList(data));
-        ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<>(
+
+        mForecastAdapter = new ArrayAdapter<>(
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
@@ -195,6 +198,16 @@ public class ForecastFragment extends Fragment {
             }
             return resultStrs;
 
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            if(result != null){
+                mForecastAdapter.clear();
+                for(String dayForecastStr: result){
+                    mForecastAdapter.add(dayForecastStr);
+                }
+            }
         }
 
         @Override
