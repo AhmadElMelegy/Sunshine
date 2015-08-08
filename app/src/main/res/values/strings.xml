@@ -9,5 +9,18 @@
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">360761</string>
 
+    <string name="pref_units_label" translatable="false">Units</string>
+    <string name="pref_units_key" translatable="false">units</string>
+
+
+    <array name="units_labels">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </array>
+
+    <array name="units_values">
+        <item>celsius</item>
+        <item>fahrenheit</item>
+    </array>
 
 </resources>
