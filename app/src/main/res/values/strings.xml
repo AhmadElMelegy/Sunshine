@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">Sunshine</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="refresh_button">Refresh</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="app_name" translatable="false">Sunshine</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="refresh_button" translatable="false">Refresh</string>
+    <string name="title_activity_detail" translatable="false">DetailActivity</string>
+
+    <string name="pref_location_label" translatable="false">Location</string>
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_default" translatable="false">360761</string>
+
+
 </resources>
