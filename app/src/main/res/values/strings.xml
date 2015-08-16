@@ -11,9 +11,12 @@
 
     <string name="pref_units_label" translatable="false">Units</string>
     <string name="pref_units_key" translatable="false">units</string>
+
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+
     <string name="show_map_label">Map</string>
     <string name="share_menu">Share</string>
-
 
     <array name="units_labels">
         <item>Metric</item>
@@ -21,8 +24,8 @@
     </array>
 
     <array name="units_values">
-        <item>celsius</item>
-        <item>fahrenheit</item>
+        <item>@string/pref_units_metric</item>
+        <item>@string/pref_units_imperial</item>
     </array>
 
 </resources>

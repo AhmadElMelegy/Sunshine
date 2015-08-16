@@ -142,9 +142,9 @@ public class ForecastFragment extends Fragment {
          */
         private String formatHighLows(double high, double low) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String units_type = preferences.getString(getString(R.string.pref_units_key), "celsius");
+            String units_type = preferences.getString(getString(R.string.pref_units_key), getResources().getString(R.string.pref_units_metric));
 
-            if(units_type.equals("fahrenheit")){
+            if(units_type.equals(getResources().getString(R.string.pref_units_imperial))){
                 high = (high * 1.8) + 32;
                 low = (low * 1.8) + 32;
             }
