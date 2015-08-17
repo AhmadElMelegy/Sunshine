@@ -27,6 +27,8 @@ import android.net.Uri;
 import com.melegy.sunshine.data.WeatherContract;
 import com.melegy.sunshine.data.WeatherDbHelper;
 
+import java.util.List;
+
 public class WeatherProvider extends ContentProvider {
 
     // The URI Matcher used by this content provider.
@@ -154,11 +156,14 @@ public class WeatherProvider extends ContentProvider {
 
         // Use the Uri Matcher to determine what kind of URI this is.
         final int match = sUriMatcher.match(uri);
-
+        String location;
+        long date;
         switch (match) {
             // Student: Uncomment and fill out these two cases
-//            case WEATHER_WITH_LOCATION_AND_DATE:
-//            case WEATHER_WITH_LOCATION:
+            case WEATHER_WITH_LOCATION_AND_DATE:
+                return WeatherContract.WeatherEntry.CONTENT_ITEM_TYPE;
+            case WEATHER_WITH_LOCATION:
+                return WeatherContract.WeatherEntry.CONTENT_TYPE;
             case WEATHER:
                 return WeatherContract.WeatherEntry.CONTENT_TYPE;
             case LOCATION:
