@@ -17,6 +17,7 @@ package com.melegy.sunshine.data;
 
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -26,8 +27,6 @@ import android.net.Uri;
 
 import com.melegy.sunshine.data.WeatherContract;
 import com.melegy.sunshine.data.WeatherDbHelper;
-
-import java.util.List;
 
 public class WeatherProvider extends ContentProvider {
 
@@ -72,6 +71,30 @@ public class WeatherProvider extends ContentProvider {
             WeatherContract.LocationEntry.TABLE_NAME +
                     "." + WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ? AND " +
                     WeatherContract.WeatherEntry.COLUMN_DATE + " = ? ";
+
+    private Cursor getWeather(
+           String[] projection,String selection, String[] selectionArgs, String sortOrder) {
+        return mOpenHelper.getReadableDatabase().query(WeatherContract.WeatherEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    private Cursor getLocation(
+            String[] projection,String selection, String[] selectionArgs, String sortOrder) {
+        return mOpenHelper.getReadableDatabase().query(WeatherContract.LocationEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
 
     private Cursor getWeatherByLocationSetting(Uri uri, String[] projection, String sortOrder) {
         String locationSetting = WeatherContract.WeatherEntry.getLocationSettingFromUri(uri);
@@ -191,12 +214,12 @@ public class WeatherProvider extends ContentProvider {
             }
             // "weather"
             case WEATHER: {
-                retCursor = null;
+                retCursor = getWeather(projection, selection, selectionArgs, sortOrder);
                 break;
             }
             // "location"
             case LOCATION: {
-                retCursor = null;
+                retCursor = getLocation(projection, selection, selectionArgs, sortOrder);
                 break;
             }
 
