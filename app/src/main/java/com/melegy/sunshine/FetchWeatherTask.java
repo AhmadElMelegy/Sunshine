@@ -118,7 +118,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         Cursor locationCursor = contentResolver.query(
                 WeatherContract.LocationEntry.CONTENT_URI,
-                null,
+                new String[]{WeatherContract.LocationEntry._ID},
                 WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
                 new String[]{locationSetting},
                 null);
