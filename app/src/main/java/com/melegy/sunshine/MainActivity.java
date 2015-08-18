@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
-        }else if(id == R.id.show_map){
+        } else if (id == R.id.show_map) {
             openPreferenceLocationInMap();
             return true;
         }

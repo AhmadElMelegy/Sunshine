@@ -73,7 +73,7 @@ public class DetailActivity extends ActionBarActivity {
 
 
             Intent intent = getActivity().getIntent();
-            if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
                 forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
                 TextView detail_text = (TextView) rootView.findViewById(R.id.detaial_text);
                 detail_text.setText(forecast);
@@ -96,7 +96,7 @@ public class DetailActivity extends ActionBarActivity {
 
             // Attach an intent to this ShareActionProvider.  You can update this at any time,
             // like when the user selects a new piece of data they might like to share.
-            if (mShareActionProvider != null ) {
+            if (mShareActionProvider != null) {
                 mShareActionProvider.setShareIntent(createShareIntent());
             } else {
                 Log.d(LOG_TAG, "Share Action Provider is null?");
@@ -104,7 +104,7 @@ public class DetailActivity extends ActionBarActivity {
         }
 
 
-        private Intent createShareIntent(){
+        private Intent createShareIntent() {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             shareIntent.setType("text/plain");
