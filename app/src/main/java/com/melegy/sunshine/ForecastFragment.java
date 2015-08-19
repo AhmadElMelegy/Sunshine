@@ -109,7 +109,7 @@ public class ForecastFragment extends Fragment implements
                 null,
                 null,
                 null,
-                null);
+                sortOrder);
     }
 
     @Override
