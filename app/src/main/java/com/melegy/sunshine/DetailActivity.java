@@ -58,7 +58,7 @@ public class DetailActivity extends ActionBarActivity {
     public static class PlaceholderFragment extends Fragment {
 
         private static final String LOG_TAG = "DetailActivity";
-        private String forecast;
+        private String mForecastStr;
         private static final String FORECATS_SHARE_HASHRAG = "#SunshineApp";
 
         public PlaceholderFragment() {
@@ -73,12 +73,13 @@ public class DetailActivity extends ActionBarActivity {
 
 
             Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
-                TextView detail_text = (TextView) rootView.findViewById(R.id.detaial_text);
-                detail_text.setText(forecast);
+            if (intent != null) {
+                mForecastStr = intent.getDataString();
             }
-
+            if (null != mForecastStr) {
+                ((TextView) rootView.findViewById(R.id.detaial_text))
+                        .setText(mForecastStr);
+            }
             return rootView;
         }
 
@@ -109,7 +110,7 @@ public class DetailActivity extends ActionBarActivity {
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT,
-                    forecast + FORECATS_SHARE_HASHRAG);
+                    mForecastStr + FORECATS_SHARE_HASHRAG);
             return shareIntent;
         }
     }
