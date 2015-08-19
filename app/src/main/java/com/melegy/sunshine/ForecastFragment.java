@@ -107,12 +107,6 @@ public class ForecastFragment extends Fragment implements
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        updateWeather();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         updateWeather();
@@ -170,5 +164,10 @@ public class ForecastFragment extends Fragment implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    public void onLocationChanged(){
+        updateWeather();
+        getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 }
