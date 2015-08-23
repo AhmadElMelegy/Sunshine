@@ -66,20 +66,15 @@ public class DetailActivity extends ActionBarActivity {
             LoaderManager.LoaderCallbacks<Cursor> {
 
         private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-        private ShareActionProvider mShareActionProvider;
-        private String mForecastStr;
         private static final int FORECAST_LOADER = 0;
         private static final String FORECATS_SHARE_HASHRAG = " #SunshineApp";
-        private Uri uri;
-
-        private static final String[] FORECAST_COLUMNS ={
+        private static final String[] FORECAST_COLUMNS = {
                 WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
                 WeatherContract.WeatherEntry.COLUMN_DATE,
                 WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
                 WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
                 WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
-        } ;
-
+        };
         // these constants correspond to the projection defined above, and must change if the
         // projection changes
         private static final int COL_WEATHER_ID = 0;
@@ -87,6 +82,9 @@ public class DetailActivity extends ActionBarActivity {
         private static final int COL_WEATHER_DESC = 2;
         private static final int COL_WEATHER_MAX_TEMP = 3;
         private static final int COL_WEATHER_MIN_TEMP = 4;
+        private ShareActionProvider mShareActionProvider;
+        private String mForecastStr;
+        private Uri uri;
 
         public PlaceholderFragment() {
             setHasOptionsMenu(true);
@@ -155,19 +153,21 @@ public class DetailActivity extends ActionBarActivity {
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            if (!data.moveToFirst()) { return; }
+            if (!data.moveToFirst()) {
+                return;
+            }
 
             String dateString = Utility.formatDate(data.getLong(COL_WEATHER_DATE));
 
             String weatherDescription = data.getString(COL_WEATHER_DESC);
 
             Boolean isMetric = Utility.isMetric(getActivity());
-            String high = Utility.formatTemperature(data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
-            String low = Utility.formatTemperature(data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+            String high = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+            String low = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
 
             mForecastStr = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
 
-            TextView detailTextView = (TextView)getView().findViewById(R.id.detaial_text);
+            TextView detailTextView = (TextView) getView().findViewById(R.id.detaial_text);
             detailTextView.setText(mForecastStr);
 
             // If onCreateOptionsMenu has already happened, we need to update the share intent now.
