@@ -10,26 +10,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
-    private static final String FORECASTFRAGMENT_TAG = "FFTAG";
     String mLocation;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocation = Utility.getPreferredLocation(this);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
-                    .commit();
-        }
         setContentView(R.layout.activity_main);
+
+        if (findViewById(R.id.weather_detail_container) != null) {
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.weather_detail_container, new DetailFragment())
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(Utility.getPreferredLocation(this).equals(mLocation)){
-            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+        if (Utility.getPreferredLocation(this).equals(mLocation)) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             ff.onLocationChanged();
             mLocation = Utility.getPreferredLocation(this);
         }
@@ -56,8 +62,8 @@ public class MainActivity extends ActionBarActivity {
         } else if (id == R.id.show_map) {
             openPreferenceLocationInMap();
             return true;
-        }else if (id == R.id.refresh){
-            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+        } else if (id == R.id.refresh) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             ff.onLocationChanged();
         }
 

@@ -130,10 +130,14 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.v(LOG_TAG, "In onCreateLoader");
         Intent intent = getActivity().getIntent();
-        if (intent == null) {
+        if (intent == null || intent.getData() == null) {
             return null;
         }
+
+        // Now create and return a CursorLoader that will take care of
+        // creating a Cursor for the data being displayed.
         return new CursorLoader(
                 getActivity(),
                 intent.getData(),
@@ -150,7 +154,6 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
             // Read weather condition ID from cursor
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
             // Use placeholder Image
-            Log.i("WEATHER2_ID", weatherId+"Y");
             mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
             // Read date from cursor and update views for day of week and date
