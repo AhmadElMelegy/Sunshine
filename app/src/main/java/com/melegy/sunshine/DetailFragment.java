@@ -36,8 +36,9 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
     public static final int COL_WEATHER_WIND_SPEED = 7;
     public static final int COL_WEATHER_DEGREES = 8;
     public static final int COL_WEATHER_CONDITION_ID = 9;
+    static final String DETAIL_URI = "URI";
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-    private static final int FORECAST_LOADER = 0;
+    private static final int DETAIL_LOADER = 0;
     private static final String FORECATS_SHARE_HASHRAG = " #SunshineApp";
     private static final String[] FORECAST_COLUMNS = {
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -56,8 +57,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
     };
     private ShareActionProvider mShareActionProvider;
     private String mForecastStr;
-    private Uri uri;
-
+    private Uri mUri;
     private ImageView mIconView;
     private TextView mFriendlyDateView;
     private TextView mDateView;
@@ -76,6 +76,11 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(DETAIL_URI);
+        }
+
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mIconView = (ImageView) view.findViewById(R.id.detail_icon);
@@ -93,7 +98,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(FORECAST_LOADER, null, this);
+        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -140,7 +145,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
         // creating a Cursor for the data being displayed.
         return new CursorLoader(
                 getActivity(),
-                intent.getData(),
+                mUri,
                 FORECAST_COLUMNS,
                 null,
                 null,
@@ -201,6 +206,16 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
         }
     }
 
+    void onLocationChanged(String newLocation) {
+        // replace the uri, since the location has changed
+        Uri uri = mUri;
+        if (null != uri) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
+    }
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
