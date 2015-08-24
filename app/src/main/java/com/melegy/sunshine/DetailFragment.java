@@ -135,21 +135,18 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v(LOG_TAG, "In onCreateLoader");
-        Intent intent = getActivity().getIntent();
-        if (intent == null || intent.getData() == null) {
-            return null;
+        if (null != mUri) {
+            // Now create and return a CursorLoader that will take care of
+            // creating a Cursor for the data being displayed.
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    FORECAST_COLUMNS,
+                    null,
+                    null,
+                    null);
         }
-
-        // Now create and return a CursorLoader that will take care of
-        // creating a Cursor for the data being displayed.
-        return new CursorLoader(
-                getActivity(),
-                mUri,
-                FORECAST_COLUMNS,
-                null,
-                null,
-                null);
+        return null;
     }
 
     @Override
@@ -216,6 +213,7 @@ public class DetailFragment extends android.support.v4.app.Fragment implements
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
     }
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
