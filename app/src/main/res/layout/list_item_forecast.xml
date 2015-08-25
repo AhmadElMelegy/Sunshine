@@ -6,13 +6,11 @@
     android:background="@drawable/touch_selector"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="horizontal"
-    android:padding="16dp" >
+    android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="60dp"
         android:layout_height="wrap_content">
-
         <ImageView
             android:id="@+id/list_item_icon"
             android:layout_width="wrap_content"
@@ -23,14 +21,12 @@
             android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="7"
-            android:orientation="vertical"
-            android:paddingLeft="16dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?android:textAppearanceLarge" />
 
@@ -47,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="5"
+        android:gravity="center"
         android:orientation="vertical">
 
     <TextView
