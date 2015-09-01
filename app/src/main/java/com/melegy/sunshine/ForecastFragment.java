@@ -1,5 +1,6 @@
 package com.melegy.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,13 +18,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.melegy.sunshine.data.WeatherContract;
+import com.melegy.sunshine.service.SunshineService;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
-
+    
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
     static final int COL_WEATHER_ID = 0;
@@ -148,9 +150,10 @@ public class ForecastFragment extends Fragment implements
     }
 
     private void updateWeather() {
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(getActivity());
+        Intent fetchIntent = new Intent(getActivity(), SunshineService.class);
         String location = Utility.getPreferredLocation(getActivity());
-        fetchWeatherTask.execute(location);
+        fetchIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, location);
+        getActivity().startService(fetchIntent);
     }
 
     @Override

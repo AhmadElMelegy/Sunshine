@@ -35,6 +35,8 @@
             android:name=".data.WeatherProvider"
             android:authorities="com.melegy.sunshine" />
 
+        <service android:name=".service.SunshineService" />
+
     </application>
 
 </manifest>
