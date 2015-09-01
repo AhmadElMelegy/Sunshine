@@ -3,20 +3,28 @@
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
     <EditTextPreference
-        android:key="@string/pref_location_key"
-        android:title="@string/pref_location_label"
-        android:defaultValue="@string/pref_location_default"
-        android:selectAllOnFocus="true"
-        android:inputType="textCapWords"
         android:capitalize="words"
+        android:defaultValue="@string/pref_location_default"
+        android:inputType="textCapWords"
+        android:key="@string/pref_location_key"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:maxLines="1" />
+        android:title="@string/pref_location_label" />
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <ListPreference
-        android:key="@string/pref_units_key"
-        android:title="@string/pref_units_label"
         android:entries="@array/units_labels"
-        android:entryValues="@array/units_values"/>
+        android:entryValues="@array/units_values"
+        android:key="@string/pref_units_key"
+        android:title="@string/pref_units_label" />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/pref_enable_notifications_default"
+        android:key="@string/pref_enable_notifications_key"
+        android:summaryOff="@string/pref_enable_notifications_false"
+        android:summaryOn="@string/pref_enable_notifications_true"
+        android:title="@string/pref_enable_notifications_label" />
+
 </PreferenceScreen>
