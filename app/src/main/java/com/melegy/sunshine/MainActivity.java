@@ -78,11 +78,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
-        } else if (id == R.id.refresh) {
-            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
-            ff.onLocationChanged();
         }
-
 
         return super.onOptionsItemSelected(item);
     }

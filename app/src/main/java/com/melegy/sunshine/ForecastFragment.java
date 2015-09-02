@@ -135,10 +135,7 @@ public class ForecastFragment extends Fragment implements
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.refresh) {
-            updateWeather();
-            return true;
-        } else if (id == R.id.show_map) {
+        if (id == R.id.show_map) {
             openPreferenceLocationInMap();
             return true;
         }
