@@ -1,5 +1,6 @@
 package com.melegy.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -137,24 +138,34 @@ public class ForecastFragment extends Fragment implements
         if (id == R.id.refresh) {
             updateWeather();
             return true;
+        } else if (id == R.id.show_map) {
+            openPreferenceLocationInMap();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void updateWeather() {
-//        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-//        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
-//
-//        //Wrap in a pending intent which only fires once.
-//        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_ONE_SHOT);//getBroadcast(context, 0, i, 0);
-//
-//        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-//
-//        //Set the AlarmManager to wake up the system.
-//        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi);
-
         SunshineSyncAdapter.syncImmediately(getActivity());
+    }
+
+    private void openPreferenceLocationInMap() {
+        if (null != mForecastAdapter) {
+            Cursor c = mForecastAdapter.getCursor();
+            if (null != c) {
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COORD_LAT);
+                String posLong = c.getString(COL_COORD_LONG);
+                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+
+            }
+        }
     }
 
     @Override

@@ -1,10 +1,8 @@
 package com.melegy.sunshine;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,9 +78,6 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
-        } else if (id == R.id.show_map) {
-            openPreferenceLocationInMap();
-            return true;
         } else if (id == R.id.refresh) {
             ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             ff.onLocationChanged();
@@ -90,22 +85,6 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
 
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void openPreferenceLocationInMap() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String city_id = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-
-        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q", city_id)
-                .build();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geoLocation);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-
     }
 
     @Override
